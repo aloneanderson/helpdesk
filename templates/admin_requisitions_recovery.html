@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if request.user.is_superuser %}
+	{% for requisition in requisitions %}
+		{% if requisition.review is False %}
+			{% if requisition.recovery is not True %}
+			{{requisition}}
+			<form method="post" action="{% url 'admin_requisitions_accept_recovery' 	requisition.pk %}">
+			{% csrf_token %}
+			<input type="submit" value="Accept">
+			</form>
+			<form method="post" action="{% url 'admin_requisitions_cancel_recovery' 	requisition.pk %}">
+			{% csrf_token %}
+			<input type="submit" value="Cancel">
+			</form>
+			{% endif %}
+		{% endif %}
+	{% endfor %}
+{% endif %}
+{% endblock %}

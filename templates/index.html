@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if messages %}
+{% for message in messages %}
+	<h2 style="color: crimson;">{{ message|safe }}</h2>
+{% endfor %}
+{% endif %}
+	{% if request.user.is_authenticated %}
+		{% if request.user.is_superuser %}
+		<h2><a href="{% url 'admin_requisitions_recovery' %}">Restore</a></h2>
+		{% endif %}
+		<h1 style="color: deeppink"> Hello, {{ request.user }}</h1>
+		<h3><a href="{% url 'logout' %}">Log Out</a></h3>
+		<h3><a href="{% url 'create_requisitions' %}">Create Requisition</a><br></h3>
+		{% for requisitions in requisitions_list %}
+			{% if requisitions.recovery is not True %}
+				<p class="requisitions_style">{{ requisitions }}</p>
+			<a href="{% url 'requisitions_update' requisitions.pk %}">Change Requisition</a><br>
+			<a href="{% url 'comments' requisitions.pk %}">Add Comment</a><br>
+			{% if requisitions.comment_requisitions.all %}
+				<p class="requisitions_comment_style">{{requisitions.comment_requisitions.all}}</p>
+			{% endif %}
+			{% if request.user.is_superuser %}
+				<form method="post" action="{% url 'requisitions_accept' requisitions.pk %}">
+				{% csrf_token %}
+				<input type="submit" value="Accept">
+				</form>
+				<form method="post" action="{% url 'requisitions_cancel' requisitions.pk %}">
+				{% csrf_token %}
+				<input type="submit" value="Cancel">
+				</form>
+			{% else %}
+			    {% if requisitions.review is False %}
+					<form method="post" action="{% url 'requisitions_recovery' requisitions.pk %}">
+					{% csrf_token %}
+					<input type="submit" value="Restore">
+					</form>
+				{% endif %}
+			{% endif %}
+			{% endif %}
+		{% endfor %}
+	{% else %}
+		<h2><a href="{% url 'registration' %}">Registration</a></h2>
+		<h2><a href="{% url 'login' %}">Sign In</a></h2>
+	{% endif %}
+
+{% endblock %}

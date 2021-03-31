@@ -1,0 +1,6 @@
+venv/
+.idea/
+core/__pycache__/
+helpdesk/migrations/__pycache__/
+helpdesk/__pycache__/
+helpdesk/api/__pycache__/

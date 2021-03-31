@@ -1,0 +1,9 @@
+{% extends 'index.html' %}
+	{% block content %}
+	<h3>Sign In</h3>
+<form method="post">
+	{% csrf_token %}
+	{{ form }}
+	<button type='submit'>Sign in</button>
+</form>
+{% endblock %}
