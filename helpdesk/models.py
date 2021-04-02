@@ -10,7 +10,7 @@ STATUS_CHOICE = (('low', 'low'),
 
 class Requisitions(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    status = models.CharField(choices=STATUS_CHOICE, max_length=6, default='low')
+    status = models.CharField(choices=STATUS_CHOICE, max_length=6)
     title = models.CharField(max_length=50)
     text = models.TextField()
     active_status = models.BooleanField(default=True)

@@ -9,7 +9,6 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework import exceptions
-from .permissions import CommentPermisson
 
 
 class RegistrationViewSet(viewsets.ModelViewSet):
@@ -62,7 +61,7 @@ class RequisitionsViewSet(viewsets.ModelViewSet):
 
 class CommentViewSet(viewsets.ModelViewSet):
     authentication_classes = [CustomTokenAuthentication]
-    permission_classes = [IsAuthenticated, CommentPermisson]
+    permission_classes = [IsAuthenticated]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     http_method_names = ['get', 'post']
